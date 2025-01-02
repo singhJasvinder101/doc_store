@@ -19,8 +19,15 @@ import {
 import { BoldIcon, FileIcon, FileJsonIcon, FilePenIcon, FilePlusIcon, FileTextIcon, GlobeIcon, ItalicIcon, PrinterIcon, Redo2Icon, RemoveFormattingIcon, StrikethroughIcon, TextIcon, TrashIcon, UnderlineIcon, Undo2Icon } from 'lucide-react';
 import { BsFilePdf } from "react-icons/bs";
 import { useEditorStore } from '../../../store/useEditorStore';
+import { RemoveDialog } from '../../../components/RemoveDialog';
+import { RenameDialog } from '../../../components/RenameDialog';
+import { Doc } from '../../../../convex/_generated/dataModel';
 
-const Navbar = () => {
+interface NavbarProps {
+    data: Doc<"documents">;
+};
+
+const Navbar = ({ data }: NavbarProps) => {
     const { editor } = useEditorStore()
 
     const insertTable = ({ rows, cols }: { rows: number, cols: number }) => {
@@ -118,7 +125,7 @@ const Navbar = () => {
 
                                     <MenubarSeparator />
 
-                                    {/* <RenameDialog documentId={data._id} initialTitle={data.title}>
+                                    <RenameDialog documentId={data._id} initialTitle={data.title}>
                                         <MenubarItem
                                             onClick={(e) => e.stopPropagation()}
                                             onSelect={(e) => e.preventDefault()}
@@ -126,8 +133,8 @@ const Navbar = () => {
                                             <FilePenIcon className="size-4 mr-2" />
                                             Rename
                                         </MenubarItem>
-                                    </RenameDialog> */}
-                                    {/* <RemoveDialog documentId={data._id}>
+                                    </RenameDialog>
+                                    <RemoveDialog documentId={data._id}>
                                         <MenubarItem
                                             onClick={(e) => e.stopPropagation()}
                                             onSelect={(e) => e.preventDefault()}
@@ -135,7 +142,7 @@ const Navbar = () => {
                                             <TrashIcon className="size-4 mr-2" />
                                             Remove
                                         </MenubarItem>
-                                    </RemoveDialog> */}
+                                    </RemoveDialog>
 
                                     <MenubarSeparator />
 
