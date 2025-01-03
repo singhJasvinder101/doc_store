@@ -2,8 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
-import DocumentInput from './documentInput'
+import React, { useState } from 'react'
 import {
     Menubar,
     MenubarContent,
@@ -22,6 +21,9 @@ import { useEditorStore } from '../../../store/useEditorStore';
 import { RemoveDialog } from '../../../components/RemoveDialog';
 import { RenameDialog } from '../../../components/RenameDialog';
 import { Doc } from '../../../../convex/_generated/dataModel';
+import { Avatars } from './avatars';
+import { OrganizationSwitcher, UserButton } from '@clerk/clerk-react';
+import DocumentInput  from './documentInput';
 
 interface NavbarProps {
     data: Doc<"documents">;
@@ -29,6 +31,8 @@ interface NavbarProps {
 
 const Navbar = ({ data }: NavbarProps) => {
     const { editor } = useEditorStore()
+    const [title, setTitle] = useState(data.title)
+
 
     const insertTable = ({ rows, cols }: { rows: number, cols: number }) => {
         editor
@@ -52,8 +56,8 @@ const Navbar = ({ data }: NavbarProps) => {
         const html = editor?.getHTML()
         const blob = new Blob([html], { type: 'text/html' })
 
-        console.log(blob)
-        onDownload(blob, 'document.html')
+        // console.log(blob)
+        onDownload(blob, `${data.title}.html`)
         return
     }
     const onSaveJSON = () => {
@@ -61,10 +65,12 @@ const Navbar = ({ data }: NavbarProps) => {
         const html = editor?.getHTML()
         const blob = new Blob([html], { type: "application/json", })
 
-        console.log(blob)
-        onDownload(blob, 'document.html')
+        // console.log(blob)
+        onDownload(blob, `${data.title}.json`)
         return
     }
+
+    
     const onSaveText = () => {
         if (!editor) return;
 
@@ -73,10 +79,14 @@ const Navbar = ({ data }: NavbarProps) => {
             type: "text/plain",
         });
 
-        console.log(blob)
-        onDownload(blob, 'document.html')
+        // console.log(blob)
+        onDownload(blob, `${data.title}.txt`)
         return
     }
+
+    const onTitleUpdate = (newTitle: string) => {
+        setTitle(newTitle);
+    };
 
     return (
         <nav className="flex items-center justify-between">
@@ -85,7 +95,7 @@ const Navbar = ({ data }: NavbarProps) => {
                     <Image src="/logo.svg" alt="Logo" width={36} height={36} />
                 </Link>
                 <div className="flex flex-col">
-                    <DocumentInput />
+                    <DocumentInput title={title} id={data._id} />
                     <div className="flex">
                         <Menubar className="border-none bg-transparent shadow-none h-auto p-0">
                             <MenubarMenu>
@@ -125,8 +135,8 @@ const Navbar = ({ data }: NavbarProps) => {
 
                                     <MenubarSeparator />
 
-                                    <RenameDialog documentId={data._id} initialTitle={data.title}>
-                                        <MenubarItem
+                                    <RenameDialog onTitleUpdate={onTitleUpdate} documentId={data._id} initialTitle={data.title}>
+                                        <MenubarItem    
                                             onClick={(e) => e.stopPropagation()}
                                             onSelect={(e) => e.preventDefault()}
                                         >
@@ -229,9 +239,20 @@ const Navbar = ({ data }: NavbarProps) => {
                                     </MenubarItem>
                                 </MenubarContent>
                             </MenubarMenu>
+
                         </Menubar>
                     </div>
                 </div>
+            </div>
+            <div className="flex gap-3 items-center pl-6">
+                <Avatars />
+                <OrganizationSwitcher
+                    afterCreateOrganizationUrl="/"
+                    afterLeaveOrganizationUrl="/"
+                    afterSelectOrganizationUrl="/"
+                    afterSelectPersonalUrl="/"
+                />
+                <UserButton />
             </div>
         </nav>
     )

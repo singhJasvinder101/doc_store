@@ -21,9 +21,22 @@ import TextAlign from '@tiptap/extension-text-align'
 import { LineHeightExtension } from '../../../extensions/lineHeight'
 import { FontSizeExtension } from '../../../extensions/fontSize'
 import Navbar from './navbar'
+import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
+import { Threads } from './threads'
 
-const Editor = () => {
+
+interface EditorProps {
+    initialContent?: string | undefined;
+};
+
+
+const Editor = ({ initialContent }: EditorProps) => {
+    const liveblocks = useLiveblocksExtension({
+        initialContent,
+        offlineSupport_experimental: true,
+    });
     const { setEditor } = useEditorStore()
+
     const editor = useEditor({
         immediatelyRender: false, // This is important for SSR
         onCreate: ({ editor }) => {
@@ -59,7 +72,10 @@ const Editor = () => {
         extensions: [
             FontFamily,
             TextStyle,
-            StarterKit,
+            liveblocks,
+            StarterKit.configure({
+                history: false,
+            }),
             Table,
             TableCell,
             TableHeader,
@@ -96,8 +112,9 @@ const Editor = () => {
         <div className='size-full overflow-x-auto bg-[#F9FBFD] px-4 print:p-0 print:bg-white print:overflow-visible'>
             <div className='min-w-max flex justify-center w-[816px] py-4 print:py-0 mx-auto print:w-full print:min-w-0'>
                 <EditorContent editor={editor} />
+                <Threads editor={editor} />
             </div>
-        </div>
+        </div>  
     )
 }
 

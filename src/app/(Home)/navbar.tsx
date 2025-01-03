@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { SearchInput } from './searchInput'
 import { UserButton, OrganizationSwitcher } from '@clerk/clerk-react'
+import { Avatars } from '../documents/[docsId]/avatars'
 
 const Navbar = () => {
     return (

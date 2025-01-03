@@ -49,7 +49,7 @@ export const get = query({
     handler: async (ctx, { search, paginationOpts }) => {
         const user = await ctx.auth.getUserIdentity();
 
-        console.log(user);
+        // console.log(user);
 
         if (!user) {
             throw new ConvexError("Unauthorized");
@@ -116,18 +116,15 @@ export const removeById = mutation({
             throw new ConvexError("Document not found");
         }
 
-        const isOwner = document.ownerId === user.subject;
-        if (!isOwner) {
-            throw new ConvexError("Unauthorized");
-        }
-        
-        const isOrganizationMember =
-        !!(document.organizationId && document.organizationId === organizationId);
+        // console.log({document, user})
 
-        if (!isOrganizationMember) {
+        const isOwner = document.ownerId === user.subject;
+        const isOrganizationMember =
+            !!(document.organizationId && document.organizationId === organizationId);
+
+        if (!isOwner && !isOrganizationMember) {
             throw new ConvexError("Unauthorized");
         }
-            
 
         return await ctx.db.delete(args.id);
     },

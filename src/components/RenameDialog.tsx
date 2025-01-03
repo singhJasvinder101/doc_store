@@ -22,9 +22,10 @@ interface RenameDialogProps {
     documentId: Id<"documents">;
     initialTitle: string;
     children: React.ReactNode;
+    onTitleUpdate: (newTitle: string) => void;
 };
 
-export const RenameDialog = ({ documentId, initialTitle, children }: RenameDialogProps) => {
+export const RenameDialog = ({ documentId, initialTitle, children, onTitleUpdate }: RenameDialogProps) => {
     const update = useMutation(api.documents.updateById);
     const [isUpdating, setIsUpdating] = useState(false);
 
@@ -37,7 +38,10 @@ export const RenameDialog = ({ documentId, initialTitle, children }: RenameDialo
 
         update({ id: documentId, title: title.trim() || "Untitled" })
             .catch(() => toast.error("Something went wrong"))
-            .then(() => toast.success("Document updated"))
+            .then(() => {
+                toast.success("Document updated")
+                onTitleUpdate(title.trim() || "Untitled");
+            })
             .finally(() => {
                 setIsUpdating(false);
                 setOpen(false);

@@ -44,8 +44,8 @@ const ToolbarButton = ({
 
 const ToolBar = () => {
     const { editor } = useEditorStore()
-    console.log("toolbar editor ", {editor})
-    
+    // console.log("toolbar editor ", { editor })
+
     const sections: {
         label: string;
         icon: LucideIcon;
@@ -99,6 +99,11 @@ const ToolBar = () => {
             ],
             [
                 {
+                    label: "Add Comment",
+                    icon: MessageSquarePlusIcon,
+                    onClick: () => editor?.chain().focus().addPendingComment().run(),
+                },
+                {
                     label: "List Todo",
                     icon: ListTodoIcon,
                     onClick: () => editor?.chain().focus().toggleTaskList().run(),
@@ -135,7 +140,7 @@ const ToolBar = () => {
             <HighlightColorButton />
 
             <Separator orientation="vertical" className="h-6 bg-neutral-300" />
-            
+
             <LinkButton />
             <ImageButton />
             <AlignButton />
