@@ -1,9 +1,9 @@
-const page = () => {
+const Page = () => {
   return (
     <div>
-      docs page
+      docs 
     </div>
   )
 }
 
-export default page
+export default Page

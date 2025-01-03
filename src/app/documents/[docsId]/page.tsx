@@ -6,11 +6,11 @@ import { Room } from './room';
 import { getDocument } from './actions';
 
 interface DocsParams {
-    params: { docsId: string };
+    params: Promise<{ docsId: string}>;
 }
 
-const page = async ({ params }: DocsParams) => {
-    const {docsId} = params;
+const Page = async ({ params }: DocsParams) => {
+    const { docsId } = await params;
 
     const document = await getDocument(docsId);
 
@@ -26,7 +26,7 @@ const page = async ({ params }: DocsParams) => {
                 </div>
             </div>
         </Room>
-    )
-}
+    );
+};
 
-export default page
+export default Page;
