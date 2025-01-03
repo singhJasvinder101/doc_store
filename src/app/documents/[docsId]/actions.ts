@@ -10,12 +10,16 @@ export async function getUsers() {
     const { sessionClaims } = await auth()
     const clerk = await clerkClient()
 
+    if (!sessionClaims?.org_id) {
+        console.error("Organization ID is missing in session claims.");
+        return [];
+    }
+
     const response = await clerk.users.getUserList({
-        organizationId: [sessionClaims?.org_id!],
+        organizationId: [sessionClaims.org_id!],
     })
 
-    if (!response) return [];
-
+    if (!response || !response.data) return [];
     console.log(response.data)
 
     const users = response.data.map((user) => {
