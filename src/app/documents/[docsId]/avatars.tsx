@@ -60,6 +60,8 @@ const Avatar = ({ src, name }: AvatarProps) => {
             <Image
                 alt={name}
                 src={src}
+                width={100}
+                height={100}
                 className="size-full rounded-full"
             />
         </div>
