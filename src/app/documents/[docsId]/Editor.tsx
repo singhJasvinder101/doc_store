@@ -20,7 +20,6 @@ import Link from '@tiptap/extension-link'
 import TextAlign from '@tiptap/extension-text-align'
 import { LineHeightExtension } from '../../../extensions/lineHeight'
 import { FontSizeExtension } from '../../../extensions/fontSize'
-import Navbar from './navbar'
 import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
 import { Threads } from './threads'
 

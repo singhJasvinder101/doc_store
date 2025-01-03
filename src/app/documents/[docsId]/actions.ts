@@ -14,6 +14,8 @@ export async function getUsers() {
         organizationId: [sessionClaims?.org_id!],
     })
 
+    if (!response) return [];
+
     console.log(response.data)
 
     const users = response.data.map((user) => {

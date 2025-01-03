@@ -1,6 +1,6 @@
 "use client";
 
-import { Authenticated, AuthLoading, ConvexProvider, ConvexReactClient, Unauthenticated } from "convex/react";
+import { Authenticated, AuthLoading, ConvexReactClient, Unauthenticated } from "convex/react";
 import { ReactNode } from "react";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { ClerkProvider, SignIn, useAuth } from "@clerk/clerk-react";

@@ -3,7 +3,6 @@ import Editor from './Editor';
 import ToolBar from './toolbar';
 import Navbar from './navbar';
 import { Room } from './room';
-import { Id } from '../../../../convex/_generated/dataModel';
 import { getDocument } from './actions';
 
 interface DocsParams {

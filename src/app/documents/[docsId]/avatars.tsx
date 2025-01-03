@@ -31,10 +31,10 @@ const AvatarStack = () => {
                 )}
                 <div className="flex">
                     {users.map(({ connectionId, info }) => {
-                        return (
-                            <Avatar key={connectionId} src={info?.avatar!} name={info?.name!} />
-                        )
+                        if (!info || !info.avatar || !info.name) return null;
+                        return <Avatar key={connectionId} src={info.avatar} name={info.name} />;
                     })}
+
                 </div>
             </div>
             <Separator orientation="vertical" className="h-6" />

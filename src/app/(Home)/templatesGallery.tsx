@@ -6,7 +6,6 @@ import { cn } from '../../lib/utils'
 import { templates } from "@/constants/templates";
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { create } from '../../../convex/documents';
 import { useMutation } from 'convex/react';
 import { api } from '../../../convex/_generated/api';
 
